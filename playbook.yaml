@@ -24,14 +24,31 @@
 - name: provisioning web tomcat
   host: web
   become: yes
-
+  task:
+  - name: download & unarchive tomcat 9
+      unarchive:
+        src: https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.45/bin/apache-tomcat-9.0.45.tar.gz
+        dest: /opt/tomcat
+         
   tasks:
   - name: install tomcat 9
 
    name: download & unarchive tomcat10 
       unarchive:
         src: https://mirrors.estointernet.in/apache/tomcat/tomcat-10/v10.0.4/bin/apache-tomcat- 10.0.4.tar.gz
-        dest: /opt/tomcat10
+        dest: /opt/tomcat
         remote_src: yes
         extra_opts: [--strip-components=1]    
 
+RUN wget https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.45/bin/apache-tomcat-9.0.45.tar.gz
+RUN tar -zxvf apache-tomcat-9.0.45.tar.gz
+RUN mv apache-tomcat-9.0.45 /opt/tomcat
+ENV CATALINA_HOME /opt/tomcat
+ENV PATH $CATALINA_HOME/bin:$PATH
+EXPOSE 8080
+RUN git clone https://github.com/boxfuse/boxfuse-sample-java-war-hello.git 
+
+WORKDIR /home/user/boxfuse-sample-java-war-hello
+RUN mvn package 
+RUN cp /home/user/boxfuse-sample-java-war-hello/target/hello-1.0.war /opt/tomcat/webapps/
+CMD ["/opt/tomcat/bin/catalina.sh", "run"]
