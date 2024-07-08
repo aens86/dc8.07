@@ -14,14 +14,13 @@
       update_cache: true
   tasks:
   - name: clone repo of github
-    ansible.builtin.git:
+    git:
       repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git 
       dest: /usr/home
-      single_branch: yes
-      version: main
+      
   tasks:
   - name: Build maven
-
+    command: /usr/home/boxfuse-sample-java-war-hello
 
 
 
