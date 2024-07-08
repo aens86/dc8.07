@@ -20,7 +20,8 @@
       
   tasks:
   - name: Build maven
-    command: /usr/home/boxfuse-sample-java-war-hello
+    command: chdir=/usr/home/boxfuse-sample-java-war-hello mvn package
+    
 
 
 
