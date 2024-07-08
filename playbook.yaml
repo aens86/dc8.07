@@ -4,7 +4,7 @@
   become: yes
 
   tasks:
-  - name: Install tomcat
+  - name: Install maven jdk
     apt:
       pkg:
         - git
@@ -25,4 +25,6 @@
   host: web
   become: yes
 
+  tasks:
+  - name: install    
 
