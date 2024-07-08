@@ -1,0 +1,55 @@
+---
+- name: provisioning  maven jdk
+  host: build
+  become: yes
+
+  tasks:
+  - name: ensure packages is present
+    apt:
+      pkg:
+        - git
+        - default-jdk
+        - maven
+      state: present
+      update_cache: true
+  tasks:
+  - name: clone repo of github
+    ansible.builtin.git:
+      repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git 
+      dest: /usr/home
+      single_branch: yes
+      version: main
+  tasks:
+  - name: Build maven
+
+
+
+
+
+
+
+
+     name: tomcat9
+     state: present
+  - name : Ensure tomcat service is started
+    service:
+     name: tomcat
+     state: started
+
+
+
+
+
+
+
+
+
+- name: Install MongoDB
+  apt:
+    pkg:
+      - mongodb-org-server
+      - mongodb-org-mongos
+      - mongodb-org-shell
+      - mongodb-org-tools 
+    state: latest
+    update_cache: true
