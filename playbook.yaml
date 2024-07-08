@@ -4,7 +4,7 @@
   become: yes
 
   tasks:
-  - name: ensure packages is present
+  - name: Install tomcat
     apt:
       pkg:
         - git
@@ -12,44 +12,17 @@
         - maven
       state: present
       update_cache: true
-  tasks:
   - name: clone repo of github
     git:
       repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git 
       dest: /usr/home
-      
-  tasks:
   - name: Build maven
     command: chdir=/usr/home/boxfuse-sample-java-war-hello mvn package
-    
+  - name: Wait build *war target/hello-1.0.war
+    wait_for:
+     patch: /home/user/boxfuse-sample-java-war-hello/target/hello-1.0.war
+- name: provisioning web tomcat
+  host: web
+  become: yes
 
 
-
-
-
-
-
-     name: tomcat9
-     state: present
-  - name : Ensure tomcat service is started
-    service:
-     name: tomcat
-     state: started
-
-
-
-
-
-
-
-
-
-- name: Install MongoDB
-  apt:
-    pkg:
-      - mongodb-org-server
-      - mongodb-org-mongos
-      - mongodb-org-shell
-      - mongodb-org-tools 
-    state: latest
-    update_cache: true
