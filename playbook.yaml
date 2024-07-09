@@ -1,17 +1,17 @@
 ---
-- name: provisioning  maven jdk
+- name: provisioning  
   host: build
   become: yes
 
   tasks:
   - name: Install maven jdk
     apt:
-      pkg:
-        - git
-        - default-jdk
-        - maven
-      state: present
-      update_cache: true
+      - git
+      - default-jdk
+      - maven
+      - rsync
+    state: present
+    update_cache: true
   - name: clone repo of github
     git:
       repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git 
@@ -21,19 +21,41 @@
   - name: Wait build *war target/hello-1.0.war
     wait_for:
      patch: /home/user/boxfuse-sample-java-war-hello/target/hello-1.0.war
-- name: provisioning web tomcat
+  - name: Synchronization of src on the control machine to dest on the remote hosts
+    synchronize:
+      src: /home/user/boxfuse-sample-java-war-hello/target/
+      dest: /web
+- name: provisioning tomcat
   host: web
   become: yes
   task:
-  - name: download & unarchive tomcat 9
-      unarchive:
+  - name: Install Tomcat9
+    :
         src: https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.45/bin/apache-tomcat-9.0.45.tar.gz
         dest: /opt/tomcat
+  
+  
+  
+  
+  - hosts: ServerA
+  tasks:
+    - name: Transfer file from ServerA to ServerB
+      synchronize:
+        src: /path/on/server_a
+        dest: /path/on/server_b
+        mode: pull
+      delegate_to: ServerB
+  
+  - name: Synchronization using rsync protocol
+    synchronize:
+    src: /home/user/boxfuse-sample-java-war-hello/target/hello-1.0.war
+    dest: rsync://web/tmp/   
+
          
   tasks:
   - name: install tomcat 9
 
-   name: download & unarchive tomcat10 
+    name: download & unarchive tomcat10 
       unarchive:
         src: https://mirrors.estointernet.in/apache/tomcat/tomcat-10/v10.0.4/bin/apache-tomcat- 10.0.4.tar.gz
         dest: /opt/tomcat
