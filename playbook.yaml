@@ -44,5 +44,6 @@
       dest: /var/lib/tomcat9/webapps
   - name: Ensure started service tomcat
     service:
-     name: tomcat
+     name: tomcat9
      state: started
+     enable: yes
