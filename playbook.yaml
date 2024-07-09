@@ -25,7 +25,6 @@
     synchronize:
       src: /home/user/1/target/hello-1.0.war
       dest: rsync://web/tmp/
-      delegate_to: delegate.host
 - name: Provisioning tomcat
   hosts: web
   become: yes
