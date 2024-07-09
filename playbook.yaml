@@ -12,6 +12,7 @@
         - maven
         - rsync
       state: present
+      update_cache: true
   - name: clone repo of github
     git:
       repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git 
@@ -36,8 +37,8 @@
         - default-jdk
         - tomcat9
         - rsync
-    state: present
-    update_cache: true
+      state: present
+      update_cache: true
   - name: Transfer artifact to web
     synchronize:
       src: /tmp
