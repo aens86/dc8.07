@@ -16,13 +16,17 @@
   - name: clone repo of github
     git:
       repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git 
-      dest: /usr/home
+      dest: /home/user/1
       update: yes
   - name: Build maven
-    command: chdir=/home/user/boxfuse-sample-java-war-hello mvn package
-  #- name: Wait build *war target/hello-1.0.war
-  #  wait_for:
-  #   patch: /home/user/boxfuse-sample-java-war-hello/target/hello-1.0.war
+    command: chdir=/home/user/1/boxfuse-sample-java-war-hello mvn package
+  - name: Wait build *war target/hello-1.0.war
+    wait_for:
+     patch: /home/user/boxfuse-sample-java-war-hello/target/hello-1.0.war
+
+  - name: Wait build *war target/hello-1.0.war
+    wait_for:
+     patch: /home/user/boxfuse-sample-java-war-hello/target/hello-1.0.war
   - name: Synchronization of src on the control machine to dest on the remote hosts
     synchronize:
       src: /home/user/boxfuse-sample-java-war-hello/target/hello-1.0.war
