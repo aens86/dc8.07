@@ -23,7 +23,7 @@
 
   - name: Synchronization of src on the control machine to dest on the remote hosts
     synchronize:
-      src: /home/user/target/1/hello-1.0.war
+      src: /home/user/1/target/hello-1.0.war
       dest: /tmp
 
 - name: Provisioning tomcat
