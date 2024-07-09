@@ -11,8 +11,7 @@
         - default-jdk
         - maven
         - rsync
-    state: present
-    update_cache: true
+      state: present
   - name: clone repo of github
     git:
       repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git 
