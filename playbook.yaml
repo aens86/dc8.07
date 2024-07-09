@@ -20,10 +20,6 @@
       update: yes
   - name: Build maven
     command: chdir=/home/user/1/ mvn package
-  - name: Wait build *war target/hello-1.0.war
-    wait_for:
-     patch: /home/user/1/target/hello-1.0.war
-     state: present
 
   - name: Synchronization of src on the control machine to dest on the remote hosts
     synchronize:
