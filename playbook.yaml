@@ -6,10 +6,11 @@
   tasks:
   - name: Install maven jdk
     apt:
-      - git
-      - default-jdk
-      - maven
-      - rsync
+      name:
+        - git
+        - default-jdk
+        - maven
+        - rsync
     state: present
     update_cache: true
   - name: clone repo of github
@@ -23,62 +24,25 @@
      patch: /home/user/boxfuse-sample-java-war-hello/target/hello-1.0.war
   - name: Synchronization of src on the control machine to dest on the remote hosts
     synchronize:
-      src: /home/user/boxfuse-sample-java-war-hello/target/
-      dest: /web
-- name: provisioning tomcat
+      src: /home/user/boxfuse-sample-java-war-hello/target/hello-1.0.war
+      dest: /tmp
+
+- name: Provisioning tomcat
   host: web
   become: yes
-  task:
+  tasks:
   - name: Install Tomcat9
-    apt: 
-      - default-jdk
-      - tomcat9
+    apt:
+      name: 
+        - default-jdk
+        - tomcat9
+        - rsync
     state: present
     update_cache: true
-    
-
-      
-
-        src: https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.45/bin/apache-tomcat-9.0.45.tar.gz
-        dest: /opt/tomcat
-  
-  
-  
-  
-  - hosts: ServerA
-  tasks:
-    - name: Transfer file from ServerA to ServerB
-      synchronize:
-        src: /path/on/server_a
-        dest: /path/on/server_b
-        mode: pull
-      delegate_to: ServerB
-  
-  - name: Synchronization using rsync protocol
+  - name: Transfer artifact to web
     synchronize:
-    src: /home/user/boxfuse-sample-java-war-hello/target/hello-1.0.war
-    dest: rsync://web/tmp/   
-
-         
-  tasks:
-  - name: install tomcat 9
-
-    name: download & unarchive tomcat10 
-      unarchive:
-        src: https://mirrors.estointernet.in/apache/tomcat/tomcat-10/v10.0.4/bin/apache-tomcat- 10.0.4.tar.gz
-        dest: /opt/tomcat
-        remote_src: yes
-        extra_opts: [--strip-components=1]    
-
-RUN wget https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.45/bin/apache-tomcat-9.0.45.tar.gz
-RUN tar -zxvf apache-tomcat-9.0.45.tar.gz
-RUN mv apache-tomcat-9.0.45 /opt/tomcat
-ENV CATALINA_HOME /opt/tomcat
-ENV PATH $CATALINA_HOME/bin:$PATH
-EXPOSE 8080
-RUN git clone https://github.com/boxfuse/boxfuse-sample-java-war-hello.git 
-
-WORKDIR /home/user/boxfuse-sample-java-war-hello
-RUN mvn package 
-RUN cp /home/user/boxfuse-sample-java-war-hello/target/hello-1.0.war /opt/tomcat/webapps/
-CMD ["/opt/tomcat/bin/catalina.sh", "run"]
+      src: /tmp
+      dest: /var/lib/tomcat9/webapps
+  - name: Ensure started service tomcat
+    service: tomcat
+    state: started
