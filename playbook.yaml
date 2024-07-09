@@ -47,4 +47,4 @@
     service:
      name: tomcat9
      state: started
-     enable: yes
+     enable: enabled
