@@ -22,14 +22,12 @@
     command: chdir=/home/user/1/ mvn package
   - name: Wait build *war target/hello-1.0.war
     wait_for:
-     patch: /home/user/boxfuse-sample-java-war-hello/target/hello-1.0.war
+     patch: /home/user/1/target/hello-1.0.war
+     state: present
 
-  - name: Wait build *war target/hello-1.0.war
-    wait_for:
-     patch: /home/user/boxfuse-sample-java-war-hello/target/hello-1.0.war
   - name: Synchronization of src on the control machine to dest on the remote hosts
     synchronize:
-      src: /home/user/boxfuse-sample-java-war-hello/target/hello-1.0.war
+      src: /home/user/target/1/hello-1.0.war
       dest: /tmp
 
 - name: Provisioning tomcat
