@@ -26,6 +26,7 @@
       mode: pull
       src: /home/user/1/target/hello-1.0.war
       dest: /tmp
+
 - name: Provisioning tomcat
   hosts: web
   become: yes
@@ -37,10 +38,10 @@
         - tomcat9
         - rsync
       state: present
-      update_cache: true
+  
   - name: Transfer artifact to web
     synchronize:
-      src: /tmp
+      src: /tmp/hello-1.0.war
       dest: /var/lib/tomcat9/webapps
   - name: Ensure started service tomcat
     service:
