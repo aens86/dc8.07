@@ -1,6 +1,6 @@
 ---
 - name: provisioning  
-  host: build
+  hosts: build
   become: yes
 
   tasks:
@@ -28,7 +28,7 @@
       dest: /tmp
 
 - name: Provisioning tomcat
-  host: web
+  hosts: web
   become: yes
   tasks:
   - name: Install Tomcat9
