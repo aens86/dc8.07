@@ -44,5 +44,6 @@
       src: /tmp
       dest: /var/lib/tomcat9/webapps
   - name: Ensure started service tomcat
-    service: tomcat
-    state: started
+    service:
+     name: tomcat
+     state: started
