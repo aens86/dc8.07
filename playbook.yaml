@@ -19,7 +19,7 @@
       dest: /home/user/1
       update: yes
   - name: Build maven
-    command: chdir=/home/user/1/boxfuse-sample-java-war-hello mvn package
+    command: chdir=/home/user/1/ mvn package
   - name: Wait build *war target/hello-1.0.war
     wait_for:
      patch: /home/user/boxfuse-sample-java-war-hello/target/hello-1.0.war
